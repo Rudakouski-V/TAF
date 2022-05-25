@@ -3,6 +3,7 @@ package tests;
 import baseEntities.BaseTest;
 import configuration.ReadProperties;
 import models.User;
+import models.UserBuilder;
 import org.testng.Assert;
 import org.testng.annotations.Test;
 
@@ -11,7 +12,7 @@ public class LoginTest extends BaseTest {
     @Test
     public void successLoginTest() {
         Assert.assertTrue(
-                loginStep.successLogin(new User()).isPageOpened()
+                loginStep.successLogin(new UserBuilder()).isPageOpened()
         );
     }
 
@@ -40,5 +41,17 @@ public class LoginTest extends BaseTest {
                 loginStep.incorrectLogin(user).getErrorTextElement().getText(),
                 "Email/Login or Password is incorrect. Please try again.",
                 "Неверное сообщение об ошибке");
+    }
+
+    @Test
+    public void successLoginBuilderTest() {
+//        UserBuilder user = new UserBuilder.Builder()
+//                .withEmail("345678")
+//                .withPsw("qwerty")
+//                .build();
+
+        Assert.assertTrue(
+                loginStep.successLogin(new UserBuilder()).isPageOpened()
+        );
     }
 }
