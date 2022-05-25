@@ -33,7 +33,6 @@ public class LoginStep extends BaseStep {
     }
 
     public LoginPage logout() {
-
         return loginPage;
     }
 }

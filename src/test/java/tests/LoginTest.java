@@ -7,6 +7,7 @@ import org.openqa.selenium.OutputType;
 import org.openqa.selenium.TakesScreenshot;
 import org.testng.Assert;
 import org.testng.annotations.Test;
+import pages.LoginPage;
 
 import java.io.ByteArrayInputStream;
 import java.util.UUID;
@@ -45,6 +46,16 @@ public class LoginTest extends BaseTest {
                 loginStep.incorrectLogin(ReadProperties.username(), "123").getErrorTextElement().getText(),
                 "Email/Login or Password is incorrect. Please try again.",
                 "Неверное сообщение об ошибке");
+    }
+
+    @Test
+    public void successLoginInvocationsTest() {
+        Assert.assertTrue(
+                new LoginPage(driver)
+                        .successLogin("123", "123")
+                        .openProject("jdfhdjf")
+                        .getTabByName("2567").isDisplayed()
+        );
     }
 }
 
