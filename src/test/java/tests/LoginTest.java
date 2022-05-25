@@ -2,50 +2,43 @@ package tests;
 
 import baseEntities.BaseTest;
 import configuration.ReadProperties;
-import io.qameta.allure.Allure;
-import org.openqa.selenium.OutputType;
-import org.openqa.selenium.TakesScreenshot;
+import models.User;
 import org.testng.Assert;
 import org.testng.annotations.Test;
-
-import java.io.ByteArrayInputStream;
-import java.util.UUID;
 
 public class LoginTest extends BaseTest {
 
     @Test
     public void successLoginTest() {
         Assert.assertTrue(
-                loginStep.successLogin(
-                                ReadProperties.username(),
-                                ReadProperties.password()
-                        )
-                        .isPageOpened()
+                loginStep.successLogin(new User()).isPageOpened()
         );
     }
 
     @Test
     public void incorrectEmailLoginTest() {
+        User user = new User();
+        user.setEmail("sdsd");
+        user.setPsw(ReadProperties.password());
+
         Assert.assertEquals(
-                loginStep.incorrectLogin("sdsd", ReadProperties.password()).getErrorTextElement().getText(),
+                loginStep.incorrectLogin(user).getErrorTextElement().getText(),
                 "Email/Login or Password is incorrect. Please try again.",
                 "Неверное сообщение об ошибке");
 
-        Allure.addAttachment(UUID.randomUUID().toString(), new ByteArrayInputStream(((TakesScreenshot) driver).getScreenshotAs(OutputType.BYTES)));
-
         // заведомо вносим ошибку для проверки скриншота
         Assert.assertTrue(false);
-
-        Allure.addAttachment(UUID.randomUUID().toString(), new ByteArrayInputStream(((TakesScreenshot) driver).getScreenshotAs(OutputType.BYTES)));
     }
 
     @Test
     public void incorrectPswLoginTest() {
+        User user = new User();
+        user.setEmail(ReadProperties.username());
+        user.setPsw("123");
+
         Assert.assertEquals(
-                loginStep.incorrectLogin(ReadProperties.username(), "123").getErrorTextElement().getText(),
+                loginStep.incorrectLogin(user).getErrorTextElement().getText(),
                 "Email/Login or Password is incorrect. Please try again.",
                 "Неверное сообщение об ошибке");
     }
 }
-
-
