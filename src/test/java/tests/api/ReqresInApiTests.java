@@ -12,7 +12,7 @@ import java.util.concurrent.TimeUnit;
 import static io.restassured.RestAssured.given;
 import static org.hamcrest.Matchers.*;
 
-public class ReqresInTests {
+public class ReqresInApiTests {
 
     @BeforeClass
     public void setup() {
@@ -23,7 +23,7 @@ public class ReqresInTests {
     public void getListUsersTest() {
         given()
                 .when()
-                .get(ReqresInEndpoints.GET_LIST_USERS)
+                .get(ReqresInEndpoints.LIST_USERS)
                 .then()
                 .log().status()
                 .statusCode(HttpStatus.SC_OK)
@@ -36,7 +36,7 @@ public class ReqresInTests {
     public void getSingleUserTest() {
         given()
                 .when()
-                .get(ReqresInEndpoints.GET_SINGLE_USER)
+                .get(ReqresInEndpoints.SINGLE_USER)
                 .then()
                 .log().status()
                 .statusCode(HttpStatus.SC_OK)
@@ -49,7 +49,7 @@ public class ReqresInTests {
     public void getSingleUserNotFoundTest() {
         given()
                 .when()
-                .get(ReqresInEndpoints.GET_SINGLE_USER_NOT_FOUND)
+                .get(ReqresInEndpoints.SINGLE_USER_NOT_FOUND)
                 .then()
                 .log().status()
                 .statusCode(HttpStatus.SC_NOT_FOUND)
@@ -62,7 +62,7 @@ public class ReqresInTests {
     public void getListResourceTest() {
         given()
                 .when()
-                .get(ReqresInEndpoints.GET_LIST_RESOURCE)
+                .get(ReqresInEndpoints.LIST_RESOURCE)
                 .then()
                 .log().status()
                 .statusCode(HttpStatus.SC_OK)
@@ -75,7 +75,7 @@ public class ReqresInTests {
     public void getSingleResourceTest() {
         given()
                 .when()
-                .get(ReqresInEndpoints.GET_SINGLE_RESOURCE)
+                .get(ReqresInEndpoints.SINGLE_RESOURCE)
                 .then()
                 .log().status()
                 .statusCode(HttpStatus.SC_OK)
@@ -88,7 +88,7 @@ public class ReqresInTests {
     public void getSingleResourceNotFoundTest() {
         given()
                 .when()
-                .get(ReqresInEndpoints.GET_SINGLE_RESOURCE_NOT_FOUND)
+                .get(ReqresInEndpoints.SINGLE_RESOURCE_NOT_FOUND)
                 .then()
                 .log().status()
                 .statusCode(HttpStatus.SC_NOT_FOUND)
@@ -103,7 +103,7 @@ public class ReqresInTests {
                 .header("Content-type", "application/json")
                 .body(ReqresInJsons.POST_CREATE_REQUEST.getMap(""))
                 .when()
-                .post(ReqresInEndpoints.POST_CREATE)
+                .post(ReqresInEndpoints.CREATE)
                 .then()
                 .log().status()
                 .statusCode(HttpStatus.SC_CREATED)
@@ -122,7 +122,7 @@ public class ReqresInTests {
                 .header("Content-type", "application/json")
                 .body(ReqresInJsons.PUT_UPDATE_REQUEST.getMap(""))
                 .when()
-                .put(ReqresInEndpoints.PUT_UPDATE)
+                .put(ReqresInEndpoints.UPDATE)
                 .then()
                 .log().status()
                 .statusCode(HttpStatus.SC_OK)
@@ -140,7 +140,7 @@ public class ReqresInTests {
                 .header("Content-type", "application/json")
                 .body(ReqresInJsons.PATCH_UPDATE_REQUEST.getMap(""))
                 .when()
-                .patch(ReqresInEndpoints.PATCH_UPDATE)
+                .patch(ReqresInEndpoints.UPDATE)
                 .then()
                 .log().status()
                 .statusCode(HttpStatus.SC_OK)
@@ -156,7 +156,7 @@ public class ReqresInTests {
     public void deleteDeleteTest() {
         given()
                 .when()
-                .delete(ReqresInEndpoints.DELETE_DELETE)
+                .delete(ReqresInEndpoints.DELETE)
                 .then()
                 .log().status()
                 .statusCode(HttpStatus.SC_NO_CONTENT);
@@ -168,7 +168,7 @@ public class ReqresInTests {
                 .header("Content-type", "application/json")
                 .body(ReqresInJsons.POST_REGISTER_SUCCESSFUL_REQUEST.getMap(""))
                 .when()
-                .post(ReqresInEndpoints.POST_REGISTER)
+                .post(ReqresInEndpoints.REGISTER)
                 .then()
                 .log().status()
                 .statusCode(HttpStatus.SC_OK)
@@ -183,7 +183,7 @@ public class ReqresInTests {
                 .header("Content-type", "application/json")
                 .body(ReqresInJsons.POST_REGISTER_UNSUCCESSFUL_REQUEST.getMap(""))
                 .when()
-                .post(ReqresInEndpoints.POST_REGISTER)
+                .post(ReqresInEndpoints.REGISTER)
                 .then()
                 .log().status()
                 .statusCode(HttpStatus.SC_BAD_REQUEST)
@@ -198,7 +198,7 @@ public class ReqresInTests {
                 .header("Content-type", "application/json")
                 .body(ReqresInJsons.POST_LOGIN_SUCCESSFUL_REQUEST.getMap(""))
                 .when()
-                .post(ReqresInEndpoints.POST_LOGIN)
+                .post(ReqresInEndpoints.LOGIN)
                 .then()
                 .log().status()
                 .statusCode(HttpStatus.SC_OK)
@@ -213,7 +213,7 @@ public class ReqresInTests {
                 .header("Content-type", "application/json")
                 .body(ReqresInJsons.POST_LOGIN_UNSUCCESSFUL_REQUEST.getMap(""))
                 .when()
-                .post(ReqresInEndpoints.POST_LOGIN)
+                .post(ReqresInEndpoints.LOGIN)
                 .then()
                 .log().status()
                 .statusCode(HttpStatus.SC_BAD_REQUEST)
@@ -226,7 +226,7 @@ public class ReqresInTests {
     public void getDelayedResponseTest() {
         given()
                 .when()
-                .get(ReqresInEndpoints.GET_DELAYED_RESPONSE)
+                .get(ReqresInEndpoints.DELAYED_RESPONSE)
                 .then()
                 .log().status()
                 .statusCode(HttpStatus.SC_OK)

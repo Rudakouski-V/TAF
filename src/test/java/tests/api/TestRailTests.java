@@ -1,6 +1,5 @@
 package tests.api;
 
-import com.google.gson.Gson;
 import configuration.ReadProperties;
 import configuration.TestRailEndpoints;
 import io.restassured.RestAssured;
