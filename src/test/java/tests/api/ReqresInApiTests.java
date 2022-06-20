@@ -10,6 +10,7 @@ import io.restassured.RestAssured;
 import io.restassured.http.ContentType;
 import org.apache.http.HttpStatus;
 import org.apache.http.protocol.HTTP;
+import org.testng.annotations.AfterClass;
 import org.testng.annotations.BeforeClass;
 import org.testng.annotations.Test;
 
@@ -22,7 +23,7 @@ import static org.hamcrest.Matchers.*;
 @Feature("All tests for ReqresIn")
 public class ReqresInApiTests {
 
-    @BeforeClass(groups = {"ReqresIn", "API"})
+    @BeforeClass
     public void setupEnv() {
         RestAssured.baseURI = "https://reqres.in";
 
@@ -30,9 +31,14 @@ public class ReqresInApiTests {
                 .header(HTTP.CONTENT_TYPE, ContentType.JSON);
     }
 
-    @Test(groups = {"ReqresIn", "API"})
-    @Story("[get] List users test")
+    @AfterClass
+    public void teardownEnv() {
+        RestAssured.reset();
+    }
+
+    @Test
     @Step
+    @Story("[get] List users test")
     public void getListUsersTest() {
         given()
                 .when()
@@ -46,9 +52,9 @@ public class ReqresInApiTests {
 
     }
 
-    @Test(groups = {"ReqresIn", "API"})
-    @Story("[get] Single user test")
+    @Test
     @Step
+    @Story("[get] Single user test")
     public void getSingleUserTest() {
         given()
                 .when()
@@ -61,9 +67,9 @@ public class ReqresInApiTests {
                 .body("", equalTo(ReqresInJsons.GET_SINGLE_USER_EXPECTED_RESPONSE.get()));
     }
 
-    @Test(groups = {"ReqresIn", "API"})
-    @Story("[get] Single user not found test")
+    @Test
     @Step
+    @Story("[get] Single user not found test")
     public void getSingleUserNotFoundTest() {
         given()
                 .when()
@@ -76,9 +82,9 @@ public class ReqresInApiTests {
                 .body("", equalTo(ReqresInJsons.GET_SINGLE_USER_NOT_FOUND_EXPECTED_RESPONSE.get()));
     }
 
-    @Test(groups = {"ReqresIn", "API"})
-    @Story("[get] List resource test")
+    @Test
     @Step
+    @Story("[get] List resource test")
     public void getListResourceTest() {
         given()
                 .when()
@@ -91,9 +97,9 @@ public class ReqresInApiTests {
                 .body("", equalTo(ReqresInJsons.GET_LIST_RESOURCE_EXPECTED_RESPONSE.get()));
     }
 
-    @Test(groups = {"ReqresIn", "API"})
-    @Story("[get] Single resource test")
+    @Test
     @Step
+    @Story("[get] Single resource test")
     public void getSingleResourceTest() {
         given()
                 .when()
@@ -106,9 +112,9 @@ public class ReqresInApiTests {
                 .body("", equalTo(ReqresInJsons.GET_SINGLE_RESOURCE_EXPECTED_RESPONSE.get()));
     }
 
-    @Test(groups = {"ReqresIn", "API"})
-    @Story("[get] Single resource not found test")
+    @Test
     @Step
+    @Story("[get] Single resource not found test")
     public void getSingleResourceNotFoundTest() {
         given()
                 .when()
@@ -121,9 +127,9 @@ public class ReqresInApiTests {
                 .body("", equalTo(ReqresInJsons.GET_SINGLE_RESOURCE_NOT_FOUND_EXPECTED_RESPONSE.get()));
     }
 
-    @Test(groups = {"ReqresIn", "API"})
-    @Story("[post] Create test")
+    @Test
     @Step
+    @Story("[post] Create test")
     public void postCreateTest() {
         given()
                 .body(ReqresInJsons.POST_CREATE_REQUEST.getMap(""))
@@ -140,9 +146,9 @@ public class ReqresInApiTests {
                 .body("createdAt", instanceOf(String.class));
     }
 
-    @Test(groups = {"ReqresIn", "API"})
-    @Story("[put] Update test")
+    @Test
     @Step
+    @Story("[put] Update test")
     public void putUpdateTest() {
         given()
                 .body(ReqresInJsons.PUT_UPDATE_REQUEST.getMap(""))
@@ -158,9 +164,9 @@ public class ReqresInApiTests {
                 .body("updatedAt", instanceOf(String.class));
     }
 
-    @Test(groups = {"ReqresIn", "API"})
-    @Story("[patch] Update test")
+    @Test
     @Step
+    @Story("[patch] Update test")
     public void patchUpdateTest() {
         given()
                 .body(ReqresInJsons.PATCH_UPDATE_REQUEST.getMap(""))
@@ -176,9 +182,9 @@ public class ReqresInApiTests {
                 .body("updatedAt", instanceOf(String.class));
     }
 
-    @Test(groups = {"ReqresIn", "API"})
-    @Story("[delete] Delete test")
+    @Test
     @Step
+    @Story("[delete] Delete test")
     public void deleteDeleteTest() {
         given()
                 .when()
@@ -188,9 +194,9 @@ public class ReqresInApiTests {
                 .statusCode(HttpStatus.SC_NO_CONTENT);
     }
 
-    @Test(groups = {"ReqresIn", "API"})
-    @Story("[post] Register successful test")
+    @Test
     @Step
+    @Story("[post] Register successful test")
     public void postRegisterSuccessfulTest() {
         given()
                 .body(ReqresInJsons.POST_REGISTER_SUCCESSFUL_REQUEST.getMap(""))
@@ -204,9 +210,9 @@ public class ReqresInApiTests {
                 .body("", equalTo(ReqresInJsons.POST_REGISTER_SUCCESSFUL_EXPECTED_RESPONSE.get()));
     }
 
-    @Test(groups = {"ReqresIn", "API"})
-    @Story("[post] Register unsuccessful test")
+    @Test
     @Step
+    @Story("[post] Register unsuccessful test")
     public void postRegisterUnsuccessfulTest() {
         given()
                 .body(ReqresInJsons.POST_REGISTER_UNSUCCESSFUL_REQUEST.getMap(""))
@@ -220,9 +226,9 @@ public class ReqresInApiTests {
                 .body("", equalTo(ReqresInJsons.POST_REGISTER_UNSUCCESSFUL_EXPECTED_RESPONSE.get()));
     }
 
-    @Test(groups = {"ReqresIn", "API"})
-    @Story("[post] Login successful test")
+    @Test
     @Step
+    @Story("[post] Login successful test")
     public void postLoginSuccessfulTest() {
         given()
                 .body(ReqresInJsons.POST_LOGIN_SUCCESSFUL_REQUEST.getMap(""))
@@ -236,9 +242,9 @@ public class ReqresInApiTests {
                 .body("", equalTo(ReqresInJsons.POST_LOGIN_SUCCESSFUL_EXPECTED_RESPONSE.get()));
     }
 
-    @Test(groups = {"ReqresIn", "API"})
-    @Story("[post] Login unsuccessful test")
+    @Test
     @Step
+    @Story("[post] Login unsuccessful test")
     public void postLoginUnsuccessfulTest() {
         given()
                 .body(ReqresInJsons.POST_LOGIN_UNSUCCESSFUL_REQUEST.getMap(""))
@@ -252,9 +258,9 @@ public class ReqresInApiTests {
                 .body("", equalTo(ReqresInJsons.POST_LOGIN_UNSUCCESSFUL_EXPECTED_RESPONSE.get()));
     }
 
-    @Test(groups = {"ReqresIn", "API"})
-    @Story("[get] Delayed response test")
+    @Test
     @Step
+    @Story("[get] Delayed response test")
     public void getDelayedResponseTest() {
         given()
                 .when()

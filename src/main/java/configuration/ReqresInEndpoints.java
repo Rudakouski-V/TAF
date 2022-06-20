@@ -1,6 +1,6 @@
 package configuration;
 
-public class ReqresInEndpoints {
+public final class ReqresInEndpoints {
     public static final String LIST_USERS = "/api/users?page=2";
     public static final String SINGLE_USER = "/api/users/2";
     public static final String SINGLE_USER_NOT_FOUND = "/api/users/23";

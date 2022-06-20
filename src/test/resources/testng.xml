@@ -1,0 +1,14 @@
+<?xml version="1.0" encoding="UTF-8" ?>
+<!DOCTYPE suite SYSTEM "http://testng.org/testng-1.0.dtd">
+<suite name="API tests" thread-count="4" parallel="methods">
+    <test name="ReqresIn">
+        <classes>
+            <class name="tests.api.ReqresInApiTests"/>
+        </classes>
+    </test>
+    <test name="TestRail">
+        <classes>
+            <class name="tests.api.ProjectApiTest"/>
+        </classes>
+    </test>
+</suite>

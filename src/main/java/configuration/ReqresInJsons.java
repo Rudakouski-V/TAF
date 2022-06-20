@@ -4,7 +4,7 @@ import io.restassured.path.json.JsonPath;
 
 import java.io.File;
 
-public class ReqresInJsons {
+public final class ReqresInJsons {
     public static final JsonPath GET_DELAYED_RESPONSE_EXPECTED_RESPONSE = new JsonPath(new File("src/test/resources/jsons/toReqresIn/getDelayedResponseExpectedResponse.json"));
     public static final JsonPath GET_LIST_RESOURCE_EXPECTED_RESPONSE = new JsonPath(new File("src/test/resources/jsons/toReqresIn/getListResourceExpectedResponse.json"));
     public static final JsonPath GET_LIST_USERS_EXPECTED_RESPONSE = new JsonPath(new File("src/test/resources/jsons/toReqresIn/getListUsersExpectedResponse.json"));

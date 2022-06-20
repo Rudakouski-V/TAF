@@ -7,12 +7,13 @@ import lombok.Data;
 @Data
 @Builder
 public class User {
-    private String name;
-    private String email;
-    private String password;
-    @SerializedName(value = "is_active")
-    private boolean isActive;
-    @SerializedName(value = "role_id")
-    private int roleId;
-    private String role;
+//    private int id;
+//    @SerializedName("global_role_id")
+//    private int globalRoleId;
+//    @SerializedName("global_role")
+//    private String globalRole;
+//    @SerializedName("project_role_id")
+//    private int projectRoleId;
+//    @SerializedName("project_role")
+//    private String projectRole;
 }
