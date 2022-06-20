@@ -1,18 +1,30 @@
-package models;
+package dbEntities;
 
-import java.util.Objects;
+import javax.persistence.*;
 
+@Entity
+@Table(name = "Customers")
 public class Customer {
+    @Id
+    @GeneratedValue(strategy = GenerationType.IDENTITY)
     private int id;
-    private String firstName;
-    private String lastName;
-    private String email;
-    private Integer age;
+
+    @Column(name = "FirstName")
+    public String firstName;
+
+    @Column(name = "LastName")
+    public String lastName;
+
+    @Column(name = "Email")
+    public String email;
+
+    @Column(name = "Age")
+    public int age;
 
     public Customer() {
     }
 
-    public Customer(String firstName, String lastName, String email, Integer age) {
+    public Customer(String firstName, String lastName, String email, int age) {
         this.firstName = firstName;
         this.lastName = lastName;
         this.email = email;
@@ -51,11 +63,11 @@ public class Customer {
         this.email = email;
     }
 
-    public Integer getAge() {
+    public int getAge() {
         return age;
     }
 
-    public void setAge(Integer age) {
+    public void setAge(int age) {
         this.age = age;
     }
 
@@ -68,18 +80,5 @@ public class Customer {
                 ", email='" + email + '\'' +
                 ", age=" + age +
                 '}';
-    }
-
-    @Override
-    public boolean equals(Object o) {
-        if (this == o) return true;
-        if (o == null || getClass() != o.getClass()) return false;
-        Customer customer = (Customer) o;
-        return Objects.equals(getFirstName(), customer.getFirstName()) && Objects.equals(getLastName(), customer.getLastName()) && Objects.equals(getEmail(), customer.getEmail()) && Objects.equals(getAge(), customer.getAge());
-    }
-
-    @Override
-    public int hashCode() {
-        return Objects.hash(getFirstName(), getLastName(), getEmail(), getAge());
     }
 }

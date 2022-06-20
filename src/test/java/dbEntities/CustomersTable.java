@@ -51,4 +51,10 @@ public class CustomersTable {
 
         return dataBaseService.executeQuery(selectSQL);
     }
+
+    public ResultSet getCustomerById(int id) {
+        String selectSQL = "SELECT * FROM public.Customers WHERE ID = " + id + " ORDER BY id ASC;";
+
+        return dataBaseService.executeQuery(selectSQL);
+    }
 }
