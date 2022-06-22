@@ -1,48 +1,32 @@
 package tests.api;
 
-import com.google.gson.Gson;
-import configuration.ReadProperties;
 import helpers.MilestoneHelper;
-import io.restassured.RestAssured;
 import models.Milestone;
 import org.apache.http.HttpStatus;
 import org.testng.Assert;
 import org.testng.annotations.Test;
 
+import java.time.Instant;
 import java.util.HashMap;
 import java.util.Map;
 
-import static io.restassured.RestAssured.given;
+import static org.hamcrest.Matchers.is;
 
 public class TestRailMilestonesTests extends TestRailBaseApiTest {
-    //todo remove it
-    private static final int MILESTONE_ID = 60;
-    public Gson gson = new Gson();
 
     public Milestone baseMilestone;
     public MilestoneHelper milestoneHelper = new MilestoneHelper();
 
-
-    @Test(priority = 0)
+    @Test(priority = 1)
     public void addMilestoneSuccessfulTest() {
         Map<String, Object> jsonAsMap = new HashMap<>();
-        jsonAsMap.put("name", "[AUTO TEST] Base milestone name");
-        jsonAsMap.put("description", "[AUTO TEST] Base milestone announcement");
+        jsonAsMap.put("name", "[AUTO TEST] Base first milestone name");
+        jsonAsMap.put("description", "[AUTO TEST] Base milestone description");
 
-        //todo
-        baseMilestone = milestoneHelper.addMilestone(BASE_TEST_PROJECT_ID, jsonAsMap);
+        baseMilestone = milestoneHelper.addMilestone(baseProject.getProjectId(), jsonAsMap);
 
         Assert.assertEquals(baseMilestone.getName(), jsonAsMap.get("name"));
         Assert.assertEquals(baseMilestone.getDescription(), jsonAsMap.get("description"));
-
-//        expectedMilestone = Milestone.builder()
-//                .name("[AUTO TEST] Base milestone name")
-//                .description("[AUTO TEST] Base milestone announcement")
-//                .build();
-//
-//        Assert.assertEquals(
-//                milestoneHelper.addMilestone(BASE_TEST_PROJECT_ID, gson.toJson(expectedMilestone)),
-//                expectedMilestone);
     }
 
     @Test(priority = 1)
@@ -55,15 +39,14 @@ public class TestRailMilestonesTests extends TestRailBaseApiTest {
 
     @Test(priority = 1)
     public void addMilestoneNoAccessTest() {
-        setupNoAccessUser();
+        loginAsNoAccessUser();
 
         Map<String, Object> jsonAsMap = new HashMap<>();
         jsonAsMap.put("name", "[AUTO TEST] Base milestone name");
 
-        //todo
-        Assert.assertEquals(milestoneHelper.addMilestoneResponse(BASE_TEST_PROJECT_ID, jsonAsMap).getStatusCode(), HttpStatus.SC_FORBIDDEN);
+        Assert.assertEquals(milestoneHelper.addMilestoneResponse(baseProject.getProjectId(), jsonAsMap).getStatusCode(), HttpStatus.SC_FORBIDDEN);
 
-        resetNoAccessUser();
+        loginAsAccessUser();
     }
 
 
@@ -79,47 +62,26 @@ public class TestRailMilestonesTests extends TestRailBaseApiTest {
 
     @Test(dependsOnMethods = "addMilestoneSuccessfulTest", priority = 2)
     public void getMilestoneNoAccessTest() {
-        setupNoAccessUser();
-
-        RestAssured.requestSpecification = given()
-                .auth().preemptive().basic(ReadProperties.noAccessUsername(), ReadProperties.noAccessPassword());
+        loginAsNoAccessUser();
 
         Assert.assertEquals(milestoneHelper.getMilestoneResponse(baseMilestone.getMilestoneId()).getStatusCode(), HttpStatus.SC_FORBIDDEN);
 
-        resetNoAccessUser();
+        loginAsAccessUser();
     }
 
 
     @Test(dependsOnMethods = "addMilestoneSuccessfulTest", priority = 3)
     public void getMilestonesSuccessfulTest() {
         Map<String, Object> jsonAsMap = new HashMap<>();
-        jsonAsMap.put("name", "[AUTO TEST] Sub base milestone name");
-        jsonAsMap.put("description", "[AUTO TEST] Sub base milestone announcement");
-        jsonAsMap.put("parent_id", baseMilestone.getMilestoneId());
+        jsonAsMap.put("name", "[AUTO TEST] Base second milestone name");
+        jsonAsMap.put("description", "[AUTO TEST] Base milestone announcement");
 
-        //todo
-        Milestone subBaseMilestone = milestoneHelper.addMilestone(BASE_TEST_PROJECT_ID, jsonAsMap);
+        Milestone secondBaseMilestone = milestoneHelper.addMilestone(baseProject.getProjectId(), jsonAsMap);
 
-        //todo
-        //Assert.assertEquals(milestoneHelper.getMilestonesResponse(BASE_TEST_PROJECT_ID).getBody().jsonPath().getInt("size"), 2);
-        Assert.assertEquals(milestoneHelper.getMilestones(BASE_TEST_PROJECT_ID).get(1), baseMilestone);
-        Assert.assertEquals(milestoneHelper.getMilestones(BASE_TEST_PROJECT_ID).get(0), subBaseMilestone);
-    }
-
-    @Test
-    public void one(){
-        Map<String, Object> jsonAsMap = new HashMap<>();
-        jsonAsMap.put("name", "[AUTO TEST] Sub base milestone name");
-        jsonAsMap.put("description", "[AUTO TEST] Sub base milestone announcement");
-        jsonAsMap.put("parent_id", baseMilestone.getMilestoneId());
-
-        //todo
-        Milestone subBaseMilestone = milestoneHelper.addMilestone(BASE_TEST_PROJECT_ID, jsonAsMap);
-
-        //todo
-        //Assert.assertEquals(milestoneHelper.getMilestonesResponse(BASE_TEST_PROJECT_ID).getBody().jsonPath().getInt("size"), 2);
-        Assert.assertEquals(milestoneHelper.getMilestones(BASE_TEST_PROJECT_ID).get(1), baseMilestone);
-        Assert.assertEquals(milestoneHelper.getMilestones(BASE_TEST_PROJECT_ID).get(0), subBaseMilestone);
+        milestoneHelper.getMilestonesResponse(baseProject.getProjectId()).then().body("size", is(2));
+        Assert.assertEquals(milestoneHelper.getMilestones(baseProject.getProjectId()).size(), 2);
+        Assert.assertEquals(milestoneHelper.getMilestones(baseProject.getProjectId()).get(0), baseMilestone);
+        Assert.assertEquals(milestoneHelper.getMilestones(baseProject.getProjectId()).get(1), secondBaseMilestone);
     }
 
     @Test(priority = 3)
@@ -129,30 +91,26 @@ public class TestRailMilestonesTests extends TestRailBaseApiTest {
 
     @Test(priority = 3)
     public void getMilestonesNoAccessTest() {
-        setupNoAccessUser();
+        loginAsNoAccessUser();
 
-        RestAssured.requestSpecification = given()
-                .auth().preemptive().basic(ReadProperties.noAccessUsername(), ReadProperties.noAccessPassword());
+        Assert.assertEquals(milestoneHelper.getMilestonesResponse(baseProject.getProjectId()).getStatusCode(), HttpStatus.SC_FORBIDDEN);
 
-        //todo
-        Assert.assertEquals(milestoneHelper.getMilestonesResponse(BASE_TEST_PROJECT_ID).getStatusCode(), HttpStatus.SC_FORBIDDEN);
-
-        resetNoAccessUser();
+        loginAsAccessUser();
     }
 
 
     @Test(dependsOnMethods = "addMilestoneSuccessfulTest", priority = 4)
     public void updateMilestoneSuccessfulTest() {
         Map<String, Object> jsonAsMap = new HashMap<>();
-        jsonAsMap.put("is_completed", !baseMilestone.isCompleted());
-        jsonAsMap.put("is_started", !baseMilestone.isStarted());
-        jsonAsMap.put("start_on", System.currentTimeMillis());
+        jsonAsMap.put("start_on", (int) Instant.now().getEpochSecond()); // date&time - as UNIX timestamp (long), converted to int
+        jsonAsMap.put("is_started", !(baseMilestone.isStarted()));
+        jsonAsMap.put("is_completed", !(baseMilestone.isCompleted()));
 
-        Milestone updatedMilestone = milestoneHelper.updateMilestone(baseMilestone.getMilestoneId(), jsonAsMap);
+        baseMilestone = milestoneHelper.updateMilestone(baseMilestone.getMilestoneId(), jsonAsMap);
 
-        Assert.assertEquals(updatedMilestone.isCompleted(), jsonAsMap.get("is_completed"));
-        Assert.assertEquals(updatedMilestone.isStarted(), jsonAsMap.get("is_started"));
-        Assert.assertEquals(updatedMilestone.getStartOn(), jsonAsMap.get("start_on"));
+        Assert.assertEquals(baseMilestone.getStartOn(), jsonAsMap.get("start_on"));
+        Assert.assertEquals(baseMilestone.isStarted(), jsonAsMap.get("is_started"));
+        Assert.assertEquals(baseMilestone.isCompleted(), jsonAsMap.get("is_completed"));
     }
 
     @Test(priority = 4)
@@ -162,18 +120,15 @@ public class TestRailMilestonesTests extends TestRailBaseApiTest {
 
     @Test(dependsOnMethods = "addMilestoneSuccessfulTest", priority = 4)
     public void updateMilestoneNoAccessTest() {
-        setupNoAccessUser();
-
-        RestAssured.requestSpecification = given()
-                .auth().preemptive().basic(ReadProperties.noAccessUsername(), ReadProperties.noAccessPassword());
+        loginAsNoAccessUser();
 
         Assert.assertEquals(milestoneHelper.updateMilestoneResponse(baseMilestone.getMilestoneId()).getStatusCode(), HttpStatus.SC_FORBIDDEN);
 
-        resetNoAccessUser();
+        loginAsAccessUser();
     }
 
 
-    @Test(dependsOnMethods = "addMilestoneSuccessfulTest", priority = 6)
+    @Test(dependsOnMethods = "addMilestoneSuccessfulTest", priority = 5)
     public void deleteMilestoneSuccessfulTest() {
         Assert.assertEquals(milestoneHelper.deleteMilestoneResponse(baseMilestone.getMilestoneId()).getStatusCode(), HttpStatus.SC_OK);
     }
@@ -185,13 +140,10 @@ public class TestRailMilestonesTests extends TestRailBaseApiTest {
 
     @Test(dependsOnMethods = "addMilestoneSuccessfulTest", priority = 5)
     public void deleteMilestoneNoAccessTest() {
-        setupNoAccessUser();
-
-        RestAssured.requestSpecification = given()
-                .auth().preemptive().basic(ReadProperties.noAccessUsername(), ReadProperties.noAccessPassword());
+        loginAsNoAccessUser();
 
         Assert.assertEquals(milestoneHelper.deleteMilestoneResponse(baseMilestone.getMilestoneId()).getStatusCode(), HttpStatus.SC_FORBIDDEN);
 
-        resetNoAccessUser();
+        loginAsAccessUser();
     }
 }

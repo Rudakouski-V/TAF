@@ -18,8 +18,6 @@ import java.util.Map;
 import static io.restassured.RestAssured.given;
 
 public class TestRailBaseApiTest {
-    //todo remove it
-    public static final int BASE_TEST_PROJECT_ID = 76;
 
     public Project baseProject;
     public ProjectHelper projectHelper = new ProjectHelper();
@@ -35,30 +33,28 @@ public class TestRailBaseApiTest {
 
     @BeforeClass
     public void setupBaseTestProject() {
-        //todo test with it in final
-//        Map<String, Object> jsonAsMap = new HashMap<>();
-//        jsonAsMap.put("name", "[AUTO TEST] Base test project");
-//        jsonAsMap.put("announcement", "[AUTO TEST] Base test project announcement");
-//        jsonAsMap.put("show_announcement", true);
-//        jsonAsMap.put("suite_mode", ProjectType.SINGLE_SUITE_MODE);
-//
-//        baseProject = projectHelper.addProject(jsonAsMap);
+        Map<String, Object> jsonAsMap = new HashMap<>();
+        jsonAsMap.put("name", "[AUTO TEST] Base test project");
+        jsonAsMap.put("announcement", "[AUTO TEST] Base test project announcement");
+        jsonAsMap.put("show_announcement", true);
+        jsonAsMap.put("suite_mode", ProjectType.SINGLE_SUITE_MODE);
+
+        baseProject = projectHelper.addProject(jsonAsMap);
     }
 
-    protected void setupNoAccessUser(){
+    protected void loginAsNoAccessUser() {
         RestAssured.requestSpecification = given()
                 .auth().preemptive().basic(ReadProperties.noAccessUsername(), ReadProperties.noAccessPassword());
     }
 
-    protected void resetNoAccessUser(){
+    protected void loginAsAccessUser() {
         RestAssured.requestSpecification = given()
                 .auth().preemptive().basic(ReadProperties.username(), ReadProperties.password());
     }
 
     @AfterClass
     public void deleteBaseTestProject() {
-        //todo test with it in final
-//        projectHelper.deleteProject(baseProject.getProjectId());
+        projectHelper.deleteProject(baseProject.getProjectId());
     }
 
     @AfterTest

@@ -36,20 +36,21 @@ public class Case {
     private int suiteId;
     @SerializedName("display_order")
     private int displayOrder;
-//    @SerializedName("is_deleted")
-//    private int isDeleted;
-//    @SerializedName("custom_automation_type")
-//    private int customAutomationType;
-//    @SerializedName("custom_preconds")
-//    private int customPreconds;
-//    @SerializedName("custom_steps")
-//    private int customSteps;
-//    @SerializedName("custom_expected")
-//    private int customExpected;
-//    @SerializedName("custom_steps_separated")
-//    private int customStepsSeparated;
-//    @SerializedName("custom_mission")
-//    private int customMission;
-//    @SerializedName("custom_goals")
-//    private int customGoals;
+
+    @SerializedName("is_deleted")
+    private int isDeleted;
+    @SerializedName("custom_automation_type")
+    private int customAutomationType;
+    @SerializedName("custom_preconds")
+    private int customPreconds;
+    @SerializedName("custom_steps")
+    private int customSteps;
+    @SerializedName("custom_expected")
+    private int customExpected;
+    @SerializedName("custom_steps_separated")
+    private int customStepsSeparated;
+    @SerializedName("custom_mission")
+    private int customMission;
+    @SerializedName("custom_goals")
+    private int customGoals;
 }

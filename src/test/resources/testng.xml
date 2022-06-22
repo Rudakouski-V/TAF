@@ -1,6 +1,6 @@
 <?xml version="1.0" encoding="UTF-8" ?>
 <!DOCTYPE suite SYSTEM "http://testng.org/testng-1.0.dtd">
-<suite name="API tests" thread-count="4" parallel="methods">
+<suite name="API tests">
     <test name="ReqresIn">
         <classes>
             <class name="tests.api.ReqresInApiTests"/>
@@ -8,7 +8,8 @@
     </test>
     <test name="TestRail">
         <classes>
-            <class name="tests.api.ProjectApiTest"/>
+            <class name="tests.api.TestRailMilestonesTests"/>
+            <class name="tests.api.TestRailCasesTests"/>
         </classes>
     </test>
 </suite>
