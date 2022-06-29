@@ -28,10 +28,11 @@ public class FirstStepDefs {
 //        loginStep.successLogin(ReadProperties.username(), ReadProperties.password());
     }
 
-//    @After
-//    public void closeBrowser(){
-//        driver.quit();
-//    }                             задизаблено из-за использования хуков
+    // при использовании хуков - задизаблить
+    @After
+    public void closeBrowser(){
+        driver.quit();
+    }
 
 
     @When("страница логина открыта")
@@ -47,7 +48,7 @@ public class FirstStepDefs {
 
     @When("пользователь с email {string} и паролем {string} залогинился")
     public void userWithEmailAndPassLoggedIn(String email, String psw) {
-        loginPage.getPswInput().sendKeys(email);
+        loginPage.getEmailInput().sendKeys(email);
         loginPage.getPswInput().sendKeys(psw);
         loginPage.getLogInButton().click();
     }

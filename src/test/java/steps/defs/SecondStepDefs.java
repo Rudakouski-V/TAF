@@ -13,7 +13,6 @@ public class SecondStepDefs extends BaseCucumberTest{
 
     @When("loginpage is opened")
     public void loginpageIsOpened() {
-        //baseCucumberTest.driver.get(ReadProperties.getUrl());
-        baseCucumberTest.driver.get("https://yandex.by");
+        baseCucumberTest.driver.get(ReadProperties.getUrl());
     }
 }
