@@ -7,10 +7,7 @@ import io.restassured.http.ContentType;
 import models.Project;
 import models.ProjectType;
 import org.apache.http.protocol.HTTP;
-import org.testng.annotations.AfterClass;
-import org.testng.annotations.AfterTest;
-import org.testng.annotations.BeforeClass;
-import org.testng.annotations.BeforeTest;
+import org.testng.annotations.*;
 
 import java.util.HashMap;
 import java.util.Map;
@@ -19,20 +16,13 @@ import static io.restassured.RestAssured.given;
 
 public class TestRailBaseApiTest {
 
-    public Project baseProject;
+    public static Project baseProject;
     public ProjectHelper projectHelper = new ProjectHelper();
 
     @BeforeTest
-    public void setupEnv() {
-        RestAssured.baseURI = ReadProperties.getUrl();
+    public void createTempProject() {
+        setupEnv();
 
-        RestAssured.requestSpecification = given()
-                .header(HTTP.CONTENT_TYPE, ContentType.JSON)
-                .auth().preemptive().basic(ReadProperties.username(), ReadProperties.password());
-    }
-
-    @BeforeClass
-    public void setupBaseTestProject() {
         Map<String, Object> jsonAsMap = new HashMap<>();
         jsonAsMap.put("name", "[AUTO TEST] Base test project");
         jsonAsMap.put("announcement", "[AUTO TEST] Base test project announcement");
@@ -42,23 +32,30 @@ public class TestRailBaseApiTest {
         baseProject = projectHelper.addProject(jsonAsMap);
     }
 
-    protected void loginAsNoAccessUser() {
-        RestAssured.requestSpecification = given()
-                .auth().preemptive().basic(ReadProperties.noAccessUsername(), ReadProperties.noAccessPassword());
-    }
+    @BeforeMethod
+    public void setupEnv() {
+        RestAssured.baseURI = ReadProperties.getUrl();
 
-    protected void loginAsAccessUser() {
         RestAssured.requestSpecification = given()
+                .header(HTTP.CONTENT_TYPE, ContentType.JSON)
                 .auth().preemptive().basic(ReadProperties.username(), ReadProperties.password());
     }
 
-    @AfterClass
-    public void deleteBaseTestProject() {
-        projectHelper.deleteProject(baseProject.getProjectId());
+    @AfterMethod
+    public void teardownEnv() {
+        RestAssured.reset();
     }
 
     @AfterTest
-    public void teardownEnv() {
-        RestAssured.reset();
+    public void deleteTempProject() {
+        setupEnv();
+
+        projectHelper.deleteProject(baseProject.getProjectId());
+    }
+
+
+    protected void loginAsNoAccessUser() {
+        RestAssured.requestSpecification = given()
+                .auth().preemptive().basic(ReadProperties.noAccessUsername(), ReadProperties.noAccessPassword());
     }
 }

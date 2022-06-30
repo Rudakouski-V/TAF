@@ -2,9 +2,14 @@ package tests.api;
 
 import configuration.TestRailEndpoints;
 import helpers.CaseHelper;
+import helpers.ProjectHelper;
 import models.Case;
+import models.Project;
+import models.ProjectType;
 import org.apache.http.HttpStatus;
 import org.testng.Assert;
+import org.testng.annotations.AfterClass;
+import org.testng.annotations.BeforeClass;
 import org.testng.annotations.Test;
 
 import java.util.HashMap;
@@ -63,8 +68,6 @@ public class TestRailCasesTests extends TestRailBaseApiTest {
         jsonAsMap.put("title", "[AUTO TEST] Base first case title");
 
         Assert.assertEquals(caseHelper.addCaseResponse(SECTION_ID, jsonAsMap).getStatusCode(), HttpStatus.SC_FORBIDDEN);
-
-        loginAsAccessUser();
     }
 
 
@@ -83,12 +86,10 @@ public class TestRailCasesTests extends TestRailBaseApiTest {
         loginAsNoAccessUser();
 
         Assert.assertEquals(caseHelper.getCaseResponse(baseCase.getCaseId()).getStatusCode(), HttpStatus.SC_FORBIDDEN);
-
-        loginAsAccessUser();
     }
 
 
-    @Test(dependsOnMethods = "addCaseSuccessfulTest", priority = 3)
+    @Test(dependsOnMethods = {"setupBaseSectionId", "addCaseSuccessfulTest"}, priority = 3)
     public void getCasesSuccessfulTest() {
         Map<String, Object> jsonAsMap = new HashMap<>();
         jsonAsMap.put("title", "[AUTO TEST] Base second case title");
@@ -111,8 +112,6 @@ public class TestRailCasesTests extends TestRailBaseApiTest {
         loginAsNoAccessUser();
 
         Assert.assertEquals(caseHelper.getCasesResponse(baseProject.getProjectId(), baseCase.getSuiteId()).getStatusCode(), HttpStatus.SC_FORBIDDEN);
-
-        loginAsAccessUser();
     }
 
 
@@ -146,8 +145,6 @@ public class TestRailCasesTests extends TestRailBaseApiTest {
         jsonAsMap.put("title", "[AUTO TEST] UPDATED Base first case title");
 
         Assert.assertEquals(caseHelper.updateCaseResponse(baseCase.getCaseId(), jsonAsMap).getStatusCode(), HttpStatus.SC_FORBIDDEN);
-
-        loginAsAccessUser();
     }
 
 
@@ -169,7 +166,7 @@ public class TestRailCasesTests extends TestRailBaseApiTest {
         Assert.assertEquals(secondBaseCase.getEstimate(), jsonAsMap.get("estimate"));
     }
 
-    @Test(priority = 5)
+    @Test(dependsOnMethods = {"addCaseSuccessfulTest", "getCasesSuccessfulTest"}, priority = 5)
     public void updateCasesUnsuccessfulTest() {
         Map<String, Object> jsonAsMap = new HashMap<>();
         jsonAsMap.put("case_ids", new int[]{baseCase.getCaseId(), secondBaseCase.getCaseId()});
@@ -187,12 +184,10 @@ public class TestRailCasesTests extends TestRailBaseApiTest {
         jsonAsMap.put("priority_id", 3);
 
         Assert.assertEquals(caseHelper.updateCasesResponse(baseCase.getSuiteId(), jsonAsMap).getStatusCode(), HttpStatus.SC_FORBIDDEN);
-
-        loginAsAccessUser();
     }
 
 
-    @Test(priority = 6)
+    @Test(dependsOnMethods = "setupBaseSectionId", priority = 6)
     public void deleteCaseSuccessfulTest() {
         Map<String, Object> jsonAsMap = new HashMap<>();
         jsonAsMap.put("title", "[AUTO TEST] Create-and-delete case title");
@@ -212,8 +207,6 @@ public class TestRailCasesTests extends TestRailBaseApiTest {
         loginAsNoAccessUser();
 
         Assert.assertEquals(caseHelper.deleteCaseResponse(baseCase.getCaseId()).getStatusCode(), HttpStatus.SC_FORBIDDEN);
-
-        loginAsAccessUser();
     }
 
 
@@ -244,7 +237,5 @@ public class TestRailCasesTests extends TestRailBaseApiTest {
         jsonAsMap.put("project_id", baseProject.getProjectId());
 
         Assert.assertEquals(caseHelper.deleteCasesResponse(baseCase.getSuiteId(), jsonAsMap).getStatusCode(), HttpStatus.SC_FORBIDDEN);
-
-        loginAsAccessUser();
     }
 }

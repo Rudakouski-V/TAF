@@ -1,10 +1,13 @@
 package tests.api;
 
 import helpers.MilestoneHelper;
+import helpers.ProjectHelper;
 import models.Milestone;
+import models.Project;
+import models.ProjectType;
 import org.apache.http.HttpStatus;
 import org.testng.Assert;
-import org.testng.annotations.Test;
+import org.testng.annotations.*;
 
 import java.time.Instant;
 import java.util.HashMap;
@@ -45,8 +48,6 @@ public class TestRailMilestonesTests extends TestRailBaseApiTest {
         jsonAsMap.put("name", "[AUTO TEST] Base milestone name");
 
         Assert.assertEquals(milestoneHelper.addMilestoneResponse(baseProject.getProjectId(), jsonAsMap).getStatusCode(), HttpStatus.SC_FORBIDDEN);
-
-        loginAsAccessUser();
     }
 
 
@@ -65,8 +66,6 @@ public class TestRailMilestonesTests extends TestRailBaseApiTest {
         loginAsNoAccessUser();
 
         Assert.assertEquals(milestoneHelper.getMilestoneResponse(baseMilestone.getMilestoneId()).getStatusCode(), HttpStatus.SC_FORBIDDEN);
-
-        loginAsAccessUser();
     }
 
 
@@ -94,15 +93,15 @@ public class TestRailMilestonesTests extends TestRailBaseApiTest {
         loginAsNoAccessUser();
 
         Assert.assertEquals(milestoneHelper.getMilestonesResponse(baseProject.getProjectId()).getStatusCode(), HttpStatus.SC_FORBIDDEN);
-
-        loginAsAccessUser();
     }
 
 
     @Test(dependsOnMethods = "addMilestoneSuccessfulTest", priority = 4)
     public void updateMilestoneSuccessfulTest() {
         Map<String, Object> jsonAsMap = new HashMap<>();
-        jsonAsMap.put("start_on", (int) Instant.now().getEpochSecond()); // date&time - as UNIX timestamp (long), converted to int
+
+        // Date&time - as UNIX timestamp (long), converted to int
+        jsonAsMap.put("start_on", (int) Instant.now().getEpochSecond());
         jsonAsMap.put("is_started", !(baseMilestone.isStarted()));
         jsonAsMap.put("is_completed", !(baseMilestone.isCompleted()));
 
@@ -123,8 +122,6 @@ public class TestRailMilestonesTests extends TestRailBaseApiTest {
         loginAsNoAccessUser();
 
         Assert.assertEquals(milestoneHelper.updateMilestoneResponse(baseMilestone.getMilestoneId()).getStatusCode(), HttpStatus.SC_FORBIDDEN);
-
-        loginAsAccessUser();
     }
 
 
@@ -143,7 +140,5 @@ public class TestRailMilestonesTests extends TestRailBaseApiTest {
         loginAsNoAccessUser();
 
         Assert.assertEquals(milestoneHelper.deleteMilestoneResponse(baseMilestone.getMilestoneId()).getStatusCode(), HttpStatus.SC_FORBIDDEN);
-
-        loginAsAccessUser();
     }
 }
