@@ -32,6 +32,14 @@ public class ReadProperties {
         return properties.getProperty("password");
     }
 
+    public static String noAccessUsername() {
+        return properties.getProperty("noAccessUsername");
+    }
+
+    public static String noAccessPassword() {
+        return properties.getProperty("noAccessPassword");
+    }
+
     public static boolean isHeadless() {
         return properties.getProperty("headless").equalsIgnoreCase("true");
     }

@@ -25,7 +25,7 @@ public class BaseApiTest {
 
         expectedProject = Project.builder()
                 .name("WP_Test_03")
-                .typeOfProject(ProjectType.MULTIPLE_SUITE_MODE)
+                .suiteMode(ProjectType.MULTIPLE_SUITE_MODE)
                 .build();
 
         projectHelper = new ProjectHelper();

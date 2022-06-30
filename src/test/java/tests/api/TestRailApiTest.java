@@ -79,12 +79,12 @@ public class TestRailApiTest extends BaseApiTest {
     public void addProjectTest2() {
         Project project = Project.builder()
                 .name("MyLittleProject1231234123456")
-                .typeOfProject(ProjectType.SINGLE_SUITE_MODE)
+                .suiteMode(ProjectType.SINGLE_SUITE_BASELINES)
                 .build();
 
         Map<String, Object> jsonAsMap = new HashMap<>();
         jsonAsMap.put("name", project.getName());
-        jsonAsMap.put("suite_mode", project.getTypeOfProject());
+        jsonAsMap.put("suite_mode", project.getSuiteMode());
 
         given()
                 .body(jsonAsMap)
@@ -99,12 +99,12 @@ public class TestRailApiTest extends BaseApiTest {
     public void addProjectTest3() {
         Project project = Project.builder()
                 .name("MyLittleProject1231234123456")
-                .typeOfProject(ProjectType.SINGLE_SUITE_BASELINES)
+                .suiteMode(ProjectType.SINGLE_SUITE_MODE)
                 .build();
 
         Map<String, Object> jsonAsMap = new HashMap<>();
         jsonAsMap.put("name", project.getName());
-        jsonAsMap.put("suite_mode", project.getTypeOfProject());
+        jsonAsMap.put("suite_mode", project.getSuiteMode());
 
         Project newProject = given()
                 .body(jsonAsMap)
