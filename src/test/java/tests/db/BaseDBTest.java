@@ -8,11 +8,12 @@ import org.testng.annotations.BeforeTest;
 import services.DataBaseService;
 
 public class BaseDBTest {
-    public DataBaseService dataBaseService;
+
+    Logger logger = LoggerFactory.getLogger(BaseDBTest.class);
 
     CustomersTable customersTable;
 
-    Logger logger = LoggerFactory.getLogger(BaseDBTest.class);
+    public DataBaseService dataBaseService;
 
     public BaseDBTest() {
     }

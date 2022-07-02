@@ -16,7 +16,7 @@ public class DBTest extends BaseDBTest {
 
     @Test
     public void firstTest() {
-        logger.info("...Test is started...");
+        logger.info("...First test is started...");
 
         ResultSet rs = customersTable.getCustomers();
 
@@ -43,7 +43,7 @@ public class DBTest extends BaseDBTest {
 
     @Test
     public void getCustomerByIdTest() {
-        logger.info("...Test is started...");
+        logger.info("...Get customer by id test is started...");
 
         ResultSet rs = customersTable.getCustomerById(2);
 
@@ -70,6 +70,8 @@ public class DBTest extends BaseDBTest {
 
     @Test
     public void hibernateTest() {
+        logger.info("...Hibernate test is started...");
+
         CustomerService customerService = new CustomerService();
         Customer customer = new Customer("Vasya", "Petrov", "xxx@xxx.com", 30);
         customerService.saveUser(customer);
@@ -79,5 +81,7 @@ public class DBTest extends BaseDBTest {
         for (Customer cust : customerList) {
             logger.info(cust.toString());
         }
+
+        logger.info("Test is completed!");
     }
 }
