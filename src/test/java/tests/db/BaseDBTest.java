@@ -26,9 +26,9 @@ public class BaseDBTest {
         customersTable.dropTable();
         customersTable.createCustomersTable();
 
-        customersTable.addCustomer("Иван", "Иванов", "ivanov@test.com", 28);
-        customersTable.addCustomer("Петр", "Петров", "petrov@test.com", 38);
-        customersTable.addCustomer("Марина", "Стасевич", "marina@test.com", 23);
+        customersTable.addCustomer("РРІР°РЅ", "РРІР°РЅРѕРІ", "ivanov@test.com", 28);
+        customersTable.addCustomer("РџРµС‚СЂ", "РџРµС‚СЂРѕРІ", "petrov@test.com", 38);
+        customersTable.addCustomer("РњР°СЂРёРЅР°", "РЎС‚Р°СЃРµРІРёС‡", "marina@test.com", 23);
     }
 
     @AfterTest
