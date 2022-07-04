@@ -6,10 +6,9 @@
     <parameter name="oneParam" value="4"/>
     <parameter name="twoParam" value="2"/>
     <parameter name="threeParam" value="2"/>
-    <test name="Groups Test">
+    <test name="Almost all tests">
         <classes>
-            <class name="ParamTest"/>
-            <class name="DivsTests"/>
+            <class name="DivsTest"/>
             <class name="DivsDPTest"/>
         </classes>
     </test>

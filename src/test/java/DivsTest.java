@@ -1,4 +1,3 @@
-import data.StaticProvider;
 import org.testng.Assert;
 import org.testng.annotations.Listeners;
 import org.testng.annotations.Optional;
@@ -7,7 +6,7 @@ import org.testng.annotations.Test;
 import org.testng.internal.thread.ThreadTimeoutException;
 
 @Listeners(Listener.class)
-public class DivsTests {
+public class DivsTest {
     Calculator calculator = new Calculator("Division calculator");
 
     @Test
@@ -47,7 +46,7 @@ public class DivsTests {
 
     @Test(dependsOnMethods = "divDoublesTest2")
     public void divDoublesTest3normallyCrashed() {
-        Assert.assertEquals(calculator.divDoubles(4, 2), 1, "Waiting for wrong result...");
+        Assert.assertEquals(calculator.divDoubles(4, 2), 1, "\n!!!!!!! THIS TEST SHOULD BE CRASHED! IT`S NORMAL! !!!!!!!\n");
     }
 
     @Test(dependsOnMethods = "divDoublesTest3normallyCrashed")
